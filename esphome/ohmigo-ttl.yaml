@@ -1,0 +1,54 @@
+esphome:
+  name: ohmigo-ttl
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Ohmigo-TTL Fallback Hotspot"
+    password: !secret ap_password
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  password: !secret ota_password
+
+# Web server for status monitoring
+web_server:
+  port: 80
+
+# TTL control outputs
+output:
+  - platform: gpio
+    pin: GPIO16
+    id: ttl_output_1
+    
+  - platform: gpio
+    pin: GPIO17
+    id: ttl_output_2
+
+# TTL switches for control
+switch:
+  - platform: output
+    name: "TTL Output 1"
+    output: ttl_output_1
+    
+  - platform: output
+    name: "TTL Output 2"
+    output: ttl_output_2
+
+# Status LED
+status_led:
+  pin: GPIO2
